@@ -3,33 +3,24 @@
 
 #include <Arduino.h>
 
-class LEDMatrix
+class 7SegDis
 {
 public:
-    LEDMatrix(int posPins[], int posPinSize, int negPins[], int negPinSize);
-
-    void turnOn(int xCol, int yRow);
-
-    void OnRow(int yRow);
-    void OnCol(int xCol);
-
-    void Test();
-
-    void Symbol(int UserMatrix[][8]);
-
+   7SegDis(int pins[8], int bits = 1, int bitpins[])
+   7SegDis(int pins[8], int bits = 1)
+   pubic write(int number)
 private:
-    int Col;
-    int Row;
+    int* Pins
 
-    int *Pins;
-    int NumPins;
-
-    void Clear();
-
-    int limitingCols(int xCol);
-    int limitingRows(int yRow);
-
-    int *Matrixln;
+    void 1()
+    void 2()
+    void 3()
+    void 4()
+    void 5()
+    void 6()
+    void 7()
+    void 8()
+    void 9()
 
 };
 
