@@ -6,6 +6,17 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 {
     static_assert(modeSymbol == '+' || modeSymbol == '-', "First parameter must be either \'+\' or \'-\'. ");
 
+    if (modeSymbol == '+')
+    {
+        activePull = LOW;
+        passivePull = HIGH;
+    }
+    else
+    {
+        activePull = HIGH;
+        passivePull = LOW;
+    }
+
     Pins = new int[8];
     for (int i = 0; i < 8; i++)
     {
@@ -15,18 +26,31 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 
     digits = digit;
 
-    BitPins = new int[4];
-    for (int i = 0; i < 4; i++)
+    BitPins = new int[digits];
+    for (int i = 0; i < digits; i++)
     {
         BitPins[i] = bitpins[i];
+        pinMode(BitPins[i], OUTPUT);
     }
-    mode = modeSymbol;
+
+    ScanNums = new int[digits];
 }
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
 {
     static_assert(modeSymbol == '+' || modeSymbol == '-', "First parameter must be either \'+\' or \'-\'. ");
 
+    if (modeSymbol == '+')
+    {
+        activePull = LOW;
+        passivePull = HIGH;
+    }
+    else
+    {
+        activePull = HIGH;
+        passivePull = LOW;
+    }
+
     Pins = new int[8];
     for (int i = 0; i < 8; i++)
     {
@@ -36,14 +60,15 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
 
     digits = digit;
 
-    mode = modeSymbol;
+    ScanNums = new int[digits];
 }
 
-void Dis7Seg::write(int number, String dot)
+void Dis7Seg::write(int place, int number, bool dot)
 {
-    if(dot == "dot")
+    gotodigit(place);
+    if (dot == true)
     {
-        digitalWrite(Pins[7], HIGH);
+        digitalWrite(Pins[7], activePull);
     }
     if (number == 0)
     {
@@ -85,6 +110,28 @@ void Dis7Seg::write(int number, String dot)
     {
         char9();
     }
+    Clear();
+}
+
+void Dis7Seg::scan(int number1, int number2, int number3, int number4, bool dot = false, int dotplace1 = 0, int dotplace2 = 0, int dotplace3 = 0, int dotplace4 = 0)
+{
+    ScanNums[0] = number1;
+    ScanNums[1] = number2;
+    ScanNums[2] = number3;
+    ScanNums[3] = number4;
+
+    for (int i = 0; i < digits; i++)
+    {
+        gotodigit(i);
+        if (dot && (dotplace1 == i + 1 || dotplace2 == i + 1 || dotplace3 == i + 1 || dotplace4 == i + 1))
+        {
+            write(i + 1, ScanNums[i], true);
+        }
+        else
+        {
+            write(i + 1, ScanNums[i]);
+        }
+    }
 }
 
 // private :
@@ -94,14 +141,13 @@ void Dis7Seg::char0()
     {
         if (i != 5)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char1()
 {
@@ -109,14 +155,13 @@ void Dis7Seg::char1()
     {
         if (i != 1 && i != 2)
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
         else
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char2()
 {
@@ -124,14 +169,13 @@ void Dis7Seg::char2()
     {
         if (i != 2 && i != 6)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char3()
 {
@@ -139,14 +183,13 @@ void Dis7Seg::char3()
     {
         if (i != 4 && i != 6)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char4()
 {
@@ -154,14 +197,13 @@ void Dis7Seg::char4()
     {
         if (i != 0 && i != 3 && i != 4)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char5()
 {
@@ -169,14 +211,13 @@ void Dis7Seg::char5()
     {
         if (i != 1 && i != 4)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char6()
 {
@@ -184,14 +225,13 @@ void Dis7Seg::char6()
     {
         if (i != 1)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char7()
 {
@@ -199,22 +239,20 @@ void Dis7Seg::char7()
     {
         if (i != 0 && i != 1 && i != 2)
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
         else
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
     }
-    Clear();
 }
 void Dis7Seg::char8()
 {
     for (int i = 0; i < 7; i++)
     {
-        digitalWrite(Pins[i], HIGH);
+        digitalWrite(Pins[i], activePull);
     }
-    Clear();
 }
 void Dis7Seg::char9()
 {
@@ -222,30 +260,29 @@ void Dis7Seg::char9()
     {
         if (i != 4)
         {
-            digitalWrite(Pins[i], HIGH);
+            digitalWrite(Pins[i], activePull);
         }
         else
         {
-            digitalWrite(Pins[i], LOW);
+            digitalWrite(Pins[i], passivePull);
         }
     }
-    Clear();
+}
+
+void Dis7Seg::gotodigit(int digit)
+{
+    for (int i = 0; i < digits; i++)
+    {
+        digitalWrite(BitPins[i], passivePull);
+    }
+    digitalWrite(BitPins[digit], activePull);
 }
 
 void Dis7Seg::Clear()
 {
-    if (mode == '+')
+    delay(10);
+    for (int i = 0; i < 8; i++)
     {
-        for (int i = 0; i < 8; i++)
-        {
-            digitalWrite(Pins[i], HIGH);
-        }
-    }
-    else
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            digitalWrite(Pins[i], LOW);
-        }
+        digitalWrite(Pins[i], passivePull);
     }
 }
