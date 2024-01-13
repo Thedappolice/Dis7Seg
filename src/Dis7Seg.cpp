@@ -4,7 +4,12 @@
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 {
-    static_assert(modeSymbol == '+' || modeSymbol == '-', "First parameter must be either \'+\' or \'-\'. ");
+    if(modeSymbol!= '+'&& modeSymbol != '-')
+    {
+        Serial.begin(9600);
+        Serial.println("The Serial monitor is set to 9600 baud rate.");
+        Serial.println("First argument must be either \'+\' or \'-\'.");
+    }
 
     if (modeSymbol == '+')
     {
@@ -38,7 +43,13 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
 {
-    static_assert(modeSymbol == '+' || modeSymbol == '-', "First parameter must be either \'+\' or \'-\'. ");
+    if(modeSymbol!= '+'&& modeSymbol != '-')
+    {
+        Serial.begin(9600);
+        Serial.println("The Serial monitor is set to 9600 baud rate.");
+        Serial.println("First argument must be either \'+\' or \'-\'.");
+    }
+    
 
     if (modeSymbol == '+')
     {
@@ -113,7 +124,7 @@ void Dis7Seg::write(int place, int number, bool dot)
     Clear();
 }
 
-void Dis7Seg::scan(int number1, int number2, int number3, int number4, bool dot = false, int dotplace1 = 0, int dotplace2 = 0, int dotplace3 = 0, int dotplace4 = 0)
+void Dis7Seg::scan(int number1, int number2, int number3, int number4, bool dot = false, int dotplace1, int dotplace2, int dotplace3, int dotplace4)
 {
     ScanNums[0] = number1;
     ScanNums[1] = number2;
@@ -131,6 +142,20 @@ void Dis7Seg::scan(int number1, int number2, int number3, int number4, bool dot 
         {
             write(i + 1, ScanNums[i]);
         }
+    }
+}
+
+void Dis7Seg::scan(int number1, int number2, int number3, int number4)
+{
+    ScanNums[0] = number1;
+    ScanNums[1] = number2;
+    ScanNums[2] = number3;
+    ScanNums[3] = number4;
+
+    for (int i = 0; i < digits; i++)
+    {
+        gotodigit(i);
+        write(i + 1, ScanNums[i]);
     }
 }
 

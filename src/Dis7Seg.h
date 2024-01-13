@@ -6,10 +6,11 @@
 class Dis7Seg
 {
 public:
-    Dis7Seg(char modeSymbol, int pins[8], int digit = 1, int bitpins[4]);
+    Dis7Seg(char modeSymbol, int pins[8], int digit = 1, int bitpins[4] = nullptr);
     Dis7Seg(char modeSymbol, int pins[8], int digit = 1);
     void write(int place, int number, bool dot = false);
-    void scan(int number1, int number2, int number3, int number4, bool dot = false, int dotplace1 = 0, int dotplace2 = 0, int dotplace3 = 0, int dotplace4 = 0);
+    void scan(int number1, int number2, int number3, int number4, bool dot, int dotplace1 = 0, int dotplace2 = 0, int dotplace3 = 0, int dotplace4 = 0);
+    void scan(int number1, int number2, int number3, int number4);
 
 private:
     int activePull;
@@ -32,11 +33,10 @@ private:
     void char7();
     void char8();
     void char9();
-    
+
     void gotodigit(int digit);
 
     void Clear();
-    
 };
 
 #endif
