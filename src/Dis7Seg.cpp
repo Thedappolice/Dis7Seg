@@ -4,8 +4,8 @@
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 {
-    static_assert(modeSymbol == '+' || modeSymbol == '-',"First parameter must be either \'+\' or \'-\'. ");
-    
+    static_assert(modeSymbol == '+' || modeSymbol == '-', "First parameter must be either \'+\' or \'-\'. ");
+
     Pins = new int[8];
     for (int i = 0; i < 8; i++)
     {
@@ -25,12 +25,8 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
 {
-    Serial.begin(9600);
-    if (modeSymbol != "+" || modeSymbol != "-")
-    {
-        Serial.println("Monitor is set to 9600 baud rate.")
-            Serial.println("First parameter must be either \"+\" or \"-\". ")
-    }
+    static_assert(modeSymbol == '+' || modeSymbol == '-', "First parameter must be either \'+\' or \'-\'. ");
+
     Pins = new int[8];
     for (int i = 0; i < 8; i++)
     {
@@ -43,8 +39,12 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
     mode = modeSymbol;
 }
 
-void Dis7Seg::write(int number)
+void Dis7Seg::write(int number, String dot)
 {
+    if(dot == "dot")
+    {
+        digitalWrite(Pins[7], HIGH);
+    }
     if (number == 0)
     {
         char0();
@@ -90,9 +90,9 @@ void Dis7Seg::write(int number)
 // private :
 void Dis7Seg::char0()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 5 && i != 7)
+        if (i != 5)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -105,7 +105,7 @@ void Dis7Seg::char0()
 }
 void Dis7Seg::char1()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
         if (i != 1 && i != 2)
         {
@@ -120,9 +120,9 @@ void Dis7Seg::char1()
 }
 void Dis7Seg::char2()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 2 && i != 6 && i != 7)
+        if (i != 2 && i != 6)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -135,9 +135,9 @@ void Dis7Seg::char2()
 }
 void Dis7Seg::char3()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 4 && i != 6 && i != 7)
+        if (i != 4 && i != 6)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -150,9 +150,9 @@ void Dis7Seg::char3()
 }
 void Dis7Seg::char4()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 0 && i != 3 && i != 4 && i != 7)
+        if (i != 0 && i != 3 && i != 4)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -165,9 +165,9 @@ void Dis7Seg::char4()
 }
 void Dis7Seg::char5()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 1 && i != 4 && i != 7)
+        if (i != 1 && i != 4)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -180,9 +180,9 @@ void Dis7Seg::char5()
 }
 void Dis7Seg::char6()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 1 && i != 7)
+        if (i != 1)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -195,7 +195,7 @@ void Dis7Seg::char6()
 }
 void Dis7Seg::char7()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
         if (i != 0 && i != 1 && i != 2)
         {
@@ -210,24 +210,17 @@ void Dis7Seg::char7()
 }
 void Dis7Seg::char8()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 7)
-        {
-            digitalWrite(Pins[i], HIGH);
-        }
-        else
-        {
-            digitalWrite(Pins[i], LOW);
-        }
+        digitalWrite(Pins[i], HIGH);
     }
     Clear();
 }
 void Dis7Seg::char9()
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 7; i++)
     {
-        if (i != 4 && i != 7)
+        if (i != 4)
         {
             digitalWrite(Pins[i], HIGH);
         }
@@ -241,8 +234,18 @@ void Dis7Seg::char9()
 
 void Dis7Seg::Clear()
 {
-    for (int i = 0; i < 8; i++)
+    if (mode == '+')
     {
-        digitalWrite(Pins[i], LOW);
+        for (int i = 0; i < 8; i++)
+        {
+            digitalWrite(Pins[i], HIGH);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            digitalWrite(Pins[i], LOW);
+        }
     }
 }

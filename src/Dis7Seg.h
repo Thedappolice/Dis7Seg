@@ -9,6 +9,7 @@ public:
     Dis7Seg(char modeSymbol,int pins[8], int digit = 1, int bitpins[4]);
     Dis7Seg(char modeSymbol, int pins[8], int digit = 1);
     void write(int number);
+    
 
 private:
 char mode;
