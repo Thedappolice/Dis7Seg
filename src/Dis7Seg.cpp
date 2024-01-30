@@ -4,7 +4,7 @@
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 {
-    if(modeSymbol!= '+'&& modeSymbol != '-')
+    if (modeSymbol != '+' && modeSymbol != '-')
     {
         Serial.begin(9600);
         Serial.println("The Serial monitor is set to 9600 baud rate.");
@@ -43,13 +43,12 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 
 Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
 {
-    if(modeSymbol!= '+'&& modeSymbol != '-')
+    if (modeSymbol != '+' && modeSymbol != '-')
     {
         Serial.begin(9600);
         Serial.println("The Serial monitor is set to 9600 baud rate.");
         Serial.println("First argument must be either \'+\' or \'-\'.");
     }
-    
 
     if (modeSymbol == '+')
     {
@@ -74,9 +73,25 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
     ScanNums = new int[digits];
 }
 
-void Dis7Seg::write(int place, int number, bool dot)
+void Dis7Seg::write(int number, bool dot, int place)
 {
-    gotodigit(place);
+    int memory;
+    if (number < 0)
+    {
+        memory = 0;
+    }
+    else if (number > 9)
+    {
+        memory = 9;
+    }
+    else
+    {
+        memory = number;
+    }
+    if (digits != 1)
+    {
+        gotodigit(place);
+    }
     if (dot == true)
     {
         digitalWrite(Pins[7], activePull);
@@ -154,8 +169,7 @@ void Dis7Seg::scan(int number1, int number2, int number3, int number4)
 
     for (int i = 0; i < digits; i++)
     {
-        gotodigit(i);
-        write(i + 1, ScanNums[i]);
+        write(ScanNums[i], false, i);
     }
 }
 
