@@ -5,10 +5,11 @@ int pins[] = {2, 3, 4, 5, 6, 7, 8, 9};
 
 // variables
 int output[4];
+int Ondot[4];
+Ondot[1] = true;
 int reset = 0;
 float seconds = 0;
 int minutes;
-int shift = 0;
 int c;
 
 // constuctor
@@ -28,31 +29,29 @@ void setup()
 
 void loop()
 {
-  // minutes = seconds / 60;
-  // checktime();
-  // // display();
-  // // dis.scan();
-  // getnum();
-  dis.scan(output, true, shift);
+  checktime();
+  getnum();
+  dis.scan(output, true, Ondot);
 }
 
 void checktime()
 {
+  minutes = seconds / 60;
   seconds = seconds + 0.01;
-  if (seconds > 60)
+  if (seconds > 60 || Ondot[1] == true)
   {
-    if (shift != 1)
-    {
-      shift = 1;
-    }
+    movedot(1);
   }
-  if (minutes > 9)
+  if (minutes > 9 || Ondot[2] == true)
   {
-    if (shift != 2)
-    {
-      shift = 2;
-    }
+    movedot(2);
   }
+}
+
+void movedot(int digit)
+{
+  Ondot[digit] = false;
+  Ondot[digit + 1] = true;
 }
 
 void getnum()
@@ -133,17 +132,3 @@ void getnum()
   }
 }
 
-// void display()
-// {
-//   for (c = 1; c < 5; c++)
-//   {
-//     outport();
-//     findnum();
-//     outnum();
-//     if (c == (2 + shift) || c == shift)
-//     {
-//       digitalWrite(9, HIGH);
-//     }
-//     delay(5);
-//   }
-// }
