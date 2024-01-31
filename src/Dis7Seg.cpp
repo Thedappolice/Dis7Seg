@@ -31,44 +31,15 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 
     digits = digit;
 
-    BitPins = new int[digits];
-    for (int i = 0; i < digits; i++)
+    if (bitpins != nullptr)
     {
-        BitPins[i] = bitpins[i];
-        pinMode(BitPins[i], OUTPUT);
+        BitPins = new int[digits];
+        for (int i = 0; i < digits; i++)
+        {
+            BitPins[i] = bitpins[i];
+            pinMode(BitPins[i], OUTPUT);
+        }
     }
-
-    ScanNums = new int[digits];
-}
-
-Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit)
-{
-    if (modeSymbol != '+' && modeSymbol != '-')
-    {
-        Serial.begin(9600);
-        Serial.println("The Serial monitor is set to 9600 baud rate.");
-        Serial.println("First argument must be either \'+\' or \'-\'.");
-    }
-
-    if (modeSymbol == '+')
-    {
-        activePull = LOW;
-        passivePull = HIGH;
-    }
-    else
-    {
-        activePull = HIGH;
-        passivePull = LOW;
-    }
-
-    Pins = new int[8];
-    for (int i = 0; i < 8; i++)
-    {
-        Pins[i] = pins[i];
-        pinMode(Pins[i], OUTPUT);
-    }
-
-    digits = digit;
 
     ScanNums = new int[digits];
 }
@@ -139,37 +110,23 @@ void Dis7Seg::write(int number, bool dot, int place)
     Clear();
 }
 
-void Dis7Seg::scan(int number1, int number2, int number3, int number4, bool dot = false, int dotplace1, int dotplace2, int dotplace3, int dotplace4)
+void Dis7Seg::scan(int numbers[4], bool dot, bool Ondot[4])
 {
-    ScanNums[0] = number1;
-    ScanNums[1] = number2;
-    ScanNums[2] = number3;
-    ScanNums[3] = number4;
-
+    for (int i = 0; i < digits; i++)
+    {
+        ScanNums[i] = numbers[i];
+    }
     for (int i = 0; i < digits; i++)
     {
         gotodigit(i);
-        if (dot && (dotplace1 == i + 1 || dotplace2 == i + 1 || dotplace3 == i + 1 || dotplace4 == i + 1))
+        if (dot && (Ondot[i] == true))
         {
-            write(i + 1, ScanNums[i], true);
+            write(ScanNums[i], true);
         }
         else
         {
-            write(i + 1, ScanNums[i]);
+            write(ScanNums[i]);
         }
-    }
-}
-
-void Dis7Seg::scan(int number1, int number2, int number3, int number4)
-{
-    ScanNums[0] = number1;
-    ScanNums[1] = number2;
-    ScanNums[2] = number3;
-    ScanNums[3] = number4;
-
-    for (int i = 0; i < digits; i++)
-    {
-        write(ScanNums[i], false, i);
     }
 }
 
@@ -312,9 +269,9 @@ void Dis7Seg::gotodigit(int digit)
 {
     for (int i = 0; i < digits; i++)
     {
-        digitalWrite(BitPins[i], passivePull);
+        digitalWrite(BitPins[i], activePull);
     }
-    digitalWrite(BitPins[digit], activePull);
+    digitalWrite(BitPins[digit], passivePull);
 }
 
 void Dis7Seg::Clear()

@@ -6,11 +6,9 @@
 class Dis7Seg
 {
 public:
-    Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4]);
-    Dis7Seg(char modeSymbol, int pins[8], int digit = 1);
+    Dis7Seg(char modeSymbol, int pins[8], int digit = 1, int bitpins[4] = nullptr);
     void write( int number, bool dot = false, int place = 0);
-    void scan(int number1, int number2, int number3, int number4, bool dot, int dotplace1 = 0, int dotplace2 = 0, int dotplace3 = 0, int dotplace4 = 0);
-    void scan(int number1, int number2, int number3, int number4);
+    void scan(int numbers[4], bool dot = false, bool Ondot[4] = nullptr);
 
 private:
     int activePull;

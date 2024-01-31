@@ -4,6 +4,7 @@
 int pins[] = {2, 3, 4, 5, 6, 7, 8, 9};
 
 // variables
+int output[4];
 int reset = 0;
 float seconds = 0;
 int minutes;
@@ -27,12 +28,12 @@ void setup()
 
 void loop()
 {
-  minutes = seconds / 60;
-  checktime();
-  // display();
-  // dis.scan();
-  findnum();
-
+  // minutes = seconds / 60;
+  // checktime();
+  // // display();
+  // // dis.scan();
+  // getnum();
+  dis.scan(output, true, shift);
 }
 
 void checktime()
@@ -54,9 +55,8 @@ void checktime()
   }
 }
 
-int findnum()
+void getnum()
 {
-  int numbers[4];
   int num;
   for (c = 1; c < 5; c++)
   {
@@ -129,17 +129,8 @@ int findnum()
       }
     }
     num = num % 10;
-    numbers[c  - 1] = num ;
+    output[c - 1] = num;
   }
-  Serial.print(numbers[0]);
-  Serial.print(" , ");
-  Serial.print(numbers[1]);
-  Serial.print(" , ");
-  Serial.print(numbers[2]);
-  Serial.print(" , ");
-  Serial.print(numbers[3]);
-  Serial.println("");
-  return numbers;
 }
 
 // void display()
