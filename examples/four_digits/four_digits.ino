@@ -1,8 +1,5 @@
 #include <Dis7Seg.h>
 
-// allocate potentiometer with A0 pin
-#define pot A0
-
 // pins in order (A, B, C, D, E, F, G, DP)
 int pins[] = {2, 3, 4, 5, 6, 7, 8, 9};
 
