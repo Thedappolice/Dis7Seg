@@ -1,7 +1,7 @@
 #include <Dis7Seg.h>
 
 // pins in order (A, B, C, D, E, F, G, DP)
-int pins[] = {2, 3, 4, 5, 6, 7, 8, 9};
+int pins[] = { 2, 3, 4, 5, 6, 7, 8, 9 };
 
 // variable
 int num = 0;
@@ -18,35 +18,25 @@ class_name Object_name
 )
 */
 
-void setup()
-{
+void setup() {
+  Serial.begin(9600);
 }
 
-void loop()
-{
-  if (num != 11)
+void loop() {
+  num++;
+  updatetime = millis();
+  while (millis() - updatetime < 1000)  // show for 2 seconds
   {
-    updatetime = millis();
-    while (millis() - updatetime < 2000)// show for 2 seconds
-    {
-      if (num != 10)
-      {
-        dis.write(num); // write number
-        // object_name.write(number)
-      }
-      else
-      {
-        num = 9;
-        dis.write(num, true);
-        /*object_name.write(number,
+    if (num != 10) {
+      dis.write(num);  // write number
+      // object_name.write(number)
+    } else {
+      num = 9;
+      dis.write(num, true);
+      num = 0;
+      /*object_name.write(number,
                             turn on/off dot at the digit's place
                             )*/
-      }
     }
-    num++;
-  }
-  else
-  {
-    num = 0;
   }
 }

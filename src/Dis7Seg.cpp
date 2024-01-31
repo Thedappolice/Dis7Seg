@@ -178,7 +178,7 @@ void Dis7Seg::char0()
 {
     for (int i = 0; i < 7; i++)
     {
-        if (i != 5)
+        if (i != 6)
         {
             digitalWrite(Pins[i], activePull);
         }
@@ -206,7 +206,7 @@ void Dis7Seg::char2()
 {
     for (int i = 0; i < 7; i++)
     {
-        if (i != 2 && i != 6)
+        if (i != 2 && i != 5)
         {
             digitalWrite(Pins[i], activePull);
         }
@@ -220,7 +220,7 @@ void Dis7Seg::char3()
 {
     for (int i = 0; i < 7; i++)
     {
-        if (i != 4 && i != 6)
+        if (i != 4 && i != 5)
         {
             digitalWrite(Pins[i], activePull);
         }
