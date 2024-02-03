@@ -7,12 +7,14 @@ class Dis7Seg
 {
 public:
     Dis7Seg(char modeSymbol, int pins[8], int digit = 1, int bitpins[4] = nullptr);
-    void write( int number, bool dot = false, int place = 0);
-    void scan(int numbers[4], bool dot = false, bool Ondot[4] = nullptr);
+    void test();
+    void write(int number, bool dot = false, int place = 0);
+    void scan(int numbers[4], bool Ondot[4] = nullptr);
+    void gotodigit(int digit);
 
 private:
-    int activePull;
-    int passivePull;
+    uint8_t activePull;
+    uint8_t passivePull;
 
     int *Pins;
 
@@ -31,8 +33,7 @@ private:
     void char7();
     void char8();
     void char9();
-
-    void gotodigit(int digit);
+    int memory;
 
     void Clear();
 };

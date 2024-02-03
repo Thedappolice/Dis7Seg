@@ -3,17 +3,20 @@
 // pins in order (A, B, C, D, E, F, G, DP)
 int pins[] = {2, 3, 4, 5, 6, 7, 8, 9};
 
+// digit pins from left ro right
+int digitpins[] = {10, 11, 12, 13};
+
 // variables
 int output[4];
-int Ondot[4];
-Ondot[1] = true;
-int reset = 0;
+bool Ondot[4] = {false, true, false, false};
+
+char symbol = '-';
+unsigned long updatetime;
 float seconds = 0;
 int minutes;
-int c;
 
 // constuctor
-Dis7Seg dis('-', pins, 1);
+Dis7Seg dis(symbol, pins, 4, digitpins);
 /*
 class_name Object_name
 (
@@ -29,20 +32,20 @@ void setup()
 
 void loop()
 {
-  checktime();
-  getnum();
-  dis.scan(output, true, Ondot);
+  checktime();             // check for time
+  getnum();                // get each numebr and record to memory
+  dis.scan(output, Ondot); // refresh the display
 }
 
 void checktime()
 {
   minutes = seconds / 60;
   seconds = seconds + 0.01;
-  if (seconds > 60 || Ondot[1] == true)
+  if (seconds > 60 && Ondot[1] == true)
   {
     movedot(1);
   }
-  if (minutes > 9 || Ondot[2] == true)
+  if (minutes > 9 && Ondot[2] == true)
   {
     movedot(2);
   }
@@ -57,7 +60,7 @@ void movedot(int digit)
 void getnum()
 {
   int num;
-  for (c = 1; c < 5; c++)
+  for (int c = 1; c < 5; c++)
   {
     if (seconds < 60)
     {
@@ -131,4 +134,3 @@ void getnum()
     output[c - 1] = num;
   }
 }
-

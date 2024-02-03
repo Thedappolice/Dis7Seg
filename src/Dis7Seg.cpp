@@ -7,8 +7,7 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
     if (modeSymbol != '+' && modeSymbol != '-')
     {
         Serial.begin(9600);
-        Serial.println("The Serial monitor is set to 9600 baud rate.");
-        Serial.println("First argument must be either \'+\' or \'-\'.");
+        Serial.println("Error: Invalid mode symbol. Use \'+\' or \'-\'.");
     }
 
     if (modeSymbol == '+')
@@ -16,7 +15,7 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
         activePull = LOW;
         passivePull = HIGH;
     }
-    else
+    else if (modeSymbol == '-')
     {
         activePull = HIGH;
         passivePull = LOW;
@@ -31,22 +30,39 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
 
     digits = digit;
 
-    if (bitpins != nullptr)
+    BitPins = new int[digits];
+    for (int i = 0; i < digits; i++)
     {
-        BitPins = new int[digits];
-        for (int i = 0; i < digits; i++)
-        {
-            BitPins[i] = bitpins[i];
-            pinMode(BitPins[i], OUTPUT);
-        }
+        BitPins[i] = bitpins[i];
+        pinMode(BitPins[i], OUTPUT);
+        digitalWrite(BitPins[i], HIGH);
+        
     }
 
     ScanNums = new int[digits];
 }
 
+void Dis7Seg::test()
+{
+    for (int d = 0; d < digits; d++)
+    {
+        
+        for (int i = 0; i < 8; i++)
+        {
+            digitalWrite(Pins[i], activePull);
+            delay(100);
+        }
+        gotodigit(d);
+        for (int i = 0; i < 8; i++)
+        {
+            digitalWrite(Pins[i], passivePull);
+            delay(100);
+        }
+    }
+}
+
 void Dis7Seg::write(int number, bool dot, int place)
 {
-    int memory;
     if (number < 0)
     {
         memory = 0;
@@ -59,10 +75,7 @@ void Dis7Seg::write(int number, bool dot, int place)
     {
         memory = number;
     }
-    if (digits != 1)
-    {
-        gotodigit(place);
-    }
+
     if (dot == true)
     {
         digitalWrite(Pins[7], activePull);
@@ -110,16 +123,17 @@ void Dis7Seg::write(int number, bool dot, int place)
     Clear();
 }
 
-void Dis7Seg::scan(int numbers[4], bool dot, bool Ondot[4])
+void Dis7Seg::scan(int numbers[4], bool Ondot[4])
 {
     for (int i = 0; i < digits; i++)
     {
         ScanNums[i] = numbers[i];
     }
+
     for (int i = 0; i < digits; i++)
     {
         gotodigit(i);
-        if (dot && (Ondot[i] == true))
+        if (Ondot[i] == true)
         {
             write(ScanNums[i], true);
         }
@@ -127,6 +141,7 @@ void Dis7Seg::scan(int numbers[4], bool dot, bool Ondot[4])
         {
             write(ScanNums[i]);
         }
+        
     }
 }
 
@@ -267,18 +282,20 @@ void Dis7Seg::char9()
 
 void Dis7Seg::gotodigit(int digit)
 {
-    for (int i = 0; i < digits; i++)
-    {
-        digitalWrite(BitPins[i], activePull);
-    }
-    digitalWrite(BitPins[digit], passivePull);
+     
+    digitalWrite(BitPins[digit], LOW);
 }
+
 
 void Dis7Seg::Clear()
 {
-    delay(10);
+    delay(5);
     for (int i = 0; i < 8; i++)
     {
-        digitalWrite(Pins[i], passivePull);
+        digitalWrite(Pins[i], LOW);
+    }
+    for (int i =0 ; i < digits; i ++)
+    {
+        digitalWrite(BitPins[i], HIGH);
     }
 }
