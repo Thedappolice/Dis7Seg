@@ -32,7 +32,7 @@ void setup()
 void loop()
 {
   dis.write(5, true); // writes a specified number ( 0 - 9 ),
-  // with or without a decimal point (true / false).
+  // with or without a decimal point (true / false) (optional)
 
   dis.scan(output, dot_place); // refresh display with given number
                                // and dots' positions (optional)
