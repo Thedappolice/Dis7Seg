@@ -10,7 +10,6 @@ public:
     void test();
     void write(int number, bool dot = false, int place = 0);
     void scan(int numbers[4], bool Ondot[4] = nullptr);
-    void gotodigit(int digit);
 
 private:
     uint8_t activePull;
@@ -34,6 +33,8 @@ private:
     void char8();
     void char9();
     int memory;
+
+    void gotodigit(int digit);
 
     void Clear();
 };

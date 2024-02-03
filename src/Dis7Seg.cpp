@@ -36,7 +36,6 @@ Dis7Seg::Dis7Seg(char modeSymbol, int pins[8], int digit, int bitpins[4])
         BitPins[i] = bitpins[i];
         pinMode(BitPins[i], OUTPUT);
         digitalWrite(BitPins[i], HIGH);
-        
     }
 
     ScanNums = new int[digits];
@@ -46,7 +45,7 @@ void Dis7Seg::test()
 {
     for (int d = 0; d < digits; d++)
     {
-        
+
         for (int i = 0; i < 8; i++)
         {
             digitalWrite(Pins[i], activePull);
@@ -141,7 +140,6 @@ void Dis7Seg::scan(int numbers[4], bool Ondot[4])
         {
             write(ScanNums[i]);
         }
-        
     }
 }
 
@@ -282,10 +280,9 @@ void Dis7Seg::char9()
 
 void Dis7Seg::gotodigit(int digit)
 {
-     
+
     digitalWrite(BitPins[digit], LOW);
 }
-
 
 void Dis7Seg::Clear()
 {
@@ -294,7 +291,7 @@ void Dis7Seg::Clear()
     {
         digitalWrite(Pins[i], LOW);
     }
-    for (int i =0 ; i < digits; i ++)
+    for (int i = 0; i < digits; i++)
     {
         digitalWrite(BitPins[i], HIGH);
     }
