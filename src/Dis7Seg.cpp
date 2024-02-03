@@ -45,13 +45,12 @@ void Dis7Seg::test()
 {
     for (int d = 0; d < digits; d++)
     {
-
+        gotodigit(d);
         for (int i = 0; i < 8; i++)
         {
             digitalWrite(Pins[i], activePull);
             delay(100);
         }
-        gotodigit(d);
         for (int i = 0; i < 8; i++)
         {
             digitalWrite(Pins[i], passivePull);
@@ -60,7 +59,7 @@ void Dis7Seg::test()
     }
 }
 
-void Dis7Seg::write(int number, bool dot, int place)
+void Dis7Seg::write(int number, bool dot)
 {
     if (number < 0)
     {
@@ -281,7 +280,7 @@ void Dis7Seg::char9()
 void Dis7Seg::gotodigit(int digit)
 {
 
-    digitalWrite(BitPins[digit], LOW);
+    digitalWrite(BitPins[digit], passivePull);
 }
 
 void Dis7Seg::Clear()
@@ -289,10 +288,10 @@ void Dis7Seg::Clear()
     delay(5);
     for (int i = 0; i < 8; i++)
     {
-        digitalWrite(Pins[i], LOW);
+        digitalWrite(Pins[i], passivePull);
     }
     for (int i = 0; i < digits; i++)
     {
-        digitalWrite(BitPins[i], HIGH);
+        digitalWrite(BitPins[i], activePull);
     }
 }

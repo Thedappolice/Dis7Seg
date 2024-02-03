@@ -1,22 +1,21 @@
 #include <Dis7Seg.h>
 
 // pins in order (A, B, C, D, E, F, G, DP)
-int pins[] = {2, 3, 4, 5, 6, 7, 8, 9};
+int segmentPins[] = {2, 3, 4, 5, 6, 7, 8, 9};
 
-// digit pins from left ro right
+// digit pins from left to right
 int digitpins[] = {10, 11, 12, 13};
 
 // variables
 int output[4];
-bool Ondot[4] = {false, true, false, false};
+bool Ondot[] = {false, true, false, false};
 
-char symbol = '-';
 unsigned long updatetime;
 float seconds = 0;
 int minutes;
 
 // constuctor
-Dis7Seg dis(symbol, pins, 4, digitpins);
+Dis7Seg dis('+', segmentPins, 4, digitpins);
 /*
 class_name Object_name
 (
