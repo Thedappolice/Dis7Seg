@@ -80,45 +80,38 @@ void Dis7Seg::write(int number, bool dot)
         {
             digitalWrite(Pins[7], activePull);
         }
-        if (number == 0)
+        switch (number)
         {
+        case 0:
             char0();
-        }
-        else if (number == 1)
-        {
+            break;
+        case 1:
             char1();
-        }
-        else if (number == 2)
-        {
+            break;
+        case 2:
             char2();
-        }
-        else if (number == 3)
-        {
+            break;
+        case 3:
             char3();
-        }
-        else if (number == 4)
-        {
+            break;
+        case 4:
             char4();
-        }
-        else if (number == 5)
-        {
+            break;
+        case 5:
             char5();
-        }
-        else if (number == 6)
-        {
+            break;
+        case 6:
             char6();
-        }
-        else if (number == 7)
-        {
+            break;
+        case 7:
             char7();
-        }
-        else if (number == 8)
-        {
+            break;
+        case 8:
             char8();
-        }
-        else if (number == 9)
-        {
+            break;
+        case 9:
             char9();
+            break;
         }
         Clear();
     }

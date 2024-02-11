@@ -33,6 +33,8 @@ private:
     void char8();
     void char9();
 
+    void characters[] = {}
+
     int memory;
 
     void gotodigit(int digit);
