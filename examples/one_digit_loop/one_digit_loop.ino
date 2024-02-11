@@ -1,14 +1,14 @@
 #include <Dis7Seg.h>
 
 // pins in order (A, B, C, D, E, F, G, DP)
-int pins[] = { 2, 3, 4, 5, 6, 7, 8, 9 };
+int segmentPins[] = { 2, 3, 4, 5, 6, 7, 8, 9 };
 
 // variable
 int num = 0;
 unsigned long updatetime;
 
 // constuctor
-Dis7Seg dis('-', pins, 1);
+Dis7Seg dis('-', segmentPins, 1);
 /*
 class_name Object_name
 (

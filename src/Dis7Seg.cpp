@@ -61,64 +61,67 @@ void Dis7Seg::test()
 
 void Dis7Seg::write(int number, bool dot)
 {
-    if (number < 0)
+    if (number != -1)
     {
-        memory = 0;
-    }
-    else if (number > 9)
-    {
-        memory = 9;
-    }
-    else
-    {
-        memory = number;
-    }
+        if (number < 0)
+        {
+            memory = 0;
+        }
+        else if (number > 9)
+        {
+            memory = 9;
+        }
+        else
+        {
+            memory = number;
+        }
 
-    if (dot == true)
-    {
-        digitalWrite(Pins[7], activePull);
+        if (dot == true)
+        {
+            digitalWrite(Pins[7], activePull);
+        }
+        if (number == 0)
+        {
+            char0();
+        }
+        else if (number == 1)
+        {
+            char1();
+        }
+        else if (number == 2)
+        {
+            char2();
+        }
+        else if (number == 3)
+        {
+            char3();
+        }
+        else if (number == 4)
+        {
+            char4();
+        }
+        else if (number == 5)
+        {
+            char5();
+        }
+        else if (number == 6)
+        {
+            char6();
+        }
+        else if (number == 7)
+        {
+            char7();
+        }
+        else if (number == 8)
+        {
+            char8();
+        }
+        else if (number == 9)
+        {
+            char9();
+        }
+        Clear();
     }
-    if (number == 0)
-    {
-        char0();
-    }
-    else if (number == 1)
-    {
-        char1();
-    }
-    else if (number == 2)
-    {
-        char2();
-    }
-    else if (number == 3)
-    {
-        char3();
-    }
-    else if (number == 4)
-    {
-        char4();
-    }
-    else if (number == 5)
-    {
-        char5();
-    }
-    else if (number == 6)
-    {
-        char6();
-    }
-    else if (number == 7)
-    {
-        char7();
-    }
-    else if (number == 8)
-    {
-        char8();
-    }
-    else if (number == 9)
-    {
-        char9();
-    }
-    Clear();
 }
 
 void Dis7Seg::scan(int numbers[4], bool Ondot[4])
@@ -279,7 +282,10 @@ void Dis7Seg::char9()
 
 void Dis7Seg::gotodigit(int digit)
 {
-
+    for (int i = 0; i < digits; i++)
+    {
+        digitalWrite(BitPins[i], activePull);
+    }
     digitalWrite(BitPins[digit], passivePull);
 }
 
@@ -289,9 +295,5 @@ void Dis7Seg::Clear()
     for (int i = 0; i < 8; i++)
     {
         digitalWrite(Pins[i], passivePull);
-    }
-    for (int i = 0; i < digits; i++)
-    {
-        digitalWrite(BitPins[i], activePull);
     }
 }

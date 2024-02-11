@@ -32,11 +32,14 @@ private:
     void char7();
     void char8();
     void char9();
+
     int memory;
 
     void gotodigit(int digit);
 
     void Clear();
+
+    void waiting(int time);
 };
 
 #endif

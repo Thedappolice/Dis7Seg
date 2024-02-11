@@ -10,12 +10,11 @@ int digitpins[] = {10, 11, 12, 13};
 int output[4];
 bool Ondot[] = {false, true, false, false};
 
-unsigned long updatetime;
 float seconds = 0;
 int minutes;
 
 // constuctor
-Dis7Seg dis('+', segmentPins, 4, digitpins);
+Dis7Seg dis('-', segmentPins, 4, digitpins);
 /*
 class_name Object_name
 (
@@ -39,21 +38,25 @@ void loop()
 void checktime()
 {
   minutes = seconds / 60;
-  seconds = seconds + 0.01;
+  seconds = seconds + 0.0208;
   if (seconds > 60 && Ondot[1] == true)
   {
-    movedot(1);
+     Ondot[0] = true;
+    Ondot[1] = false;
+  Ondot[2] = true;
+ 
   }
   if (minutes > 9 && Ondot[2] == true)
   {
-    movedot(2);
+    Ondot[0] = false;
+  Ondot[1] = true;
+  Ondot[2] = false; 
   }
 }
 
 void movedot(int digit)
 {
-  Ondot[digit] = false;
-  Ondot[digit + 1] = true;
+  
 }
 
 void getnum()

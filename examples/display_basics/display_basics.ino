@@ -6,7 +6,7 @@ int segmentPins[] = {2, 3, 4, 5, 6, 7, 8, 9};
 // digit pins from left to right
 int digitPins[] = {10, 11, 12, 13};
 
-// array for output
+// array for output ('-1' for blank spaces)
 int output[] = {2, 4, 7, 9};
 
 // array for dot position
@@ -19,8 +19,8 @@ class_name Object_name
 (
   common cathode '+' / common anode '-',
   segment_array,
-  number_of_digits,
-  digit_pin_array
+  number_of_digits (optional, will default to 1),
+  digit_pin_array (optional)
 )
 */
 
