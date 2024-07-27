@@ -127,7 +127,7 @@ void Dis7Seg::scan(int numbers[4], bool Ondot[4])
     for (int i = 0; i < digits; i++)
     {
         gotodigit(i);
-        if (Ondot[i] == true)
+        if (Ondot != nullptr && Ondot[i] == true)
         {
             write(ScanNums[i], true);
         }
@@ -284,7 +284,7 @@ void Dis7Seg::gotodigit(int digit)
 
 void Dis7Seg::Clear()
 {
-    delay(5);
+    delay(2);
     for (int i = 0; i < 8; i++)
     {
         digitalWrite(Pins[i], passivePull);

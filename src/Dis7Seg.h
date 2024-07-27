@@ -42,7 +42,6 @@ private:
 
     void Clear();
 
-    void waiting(int time);
 };
 
 #endif
